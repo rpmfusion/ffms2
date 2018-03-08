@@ -1,6 +1,6 @@
 Name:           ffms2
 Version:        2.23
-Release:        8%{?dist}
+Release:        9%{?dist}
 License:        MIT
 Summary:        Wrapper library around libffmpeg
 URL:            https://github.com/FFMS/ffms2
@@ -60,6 +60,9 @@ rm -rf %{buildroot}%{_docdir}
 %{_libdir}/pkgconfig/%{name}.pc
 
 %changelog
+* Thu Mar 08 2018 RPM Fusion Release Engineering <leigh123linux@googlemail.com> - 2.23-9
+- Rebuilt for new ffmpeg snapshot
+
 * Thu Mar 01 2018 RPM Fusion Release Engineering <leigh123linux@googlemail.com> - 2.23-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_28_Mass_Rebuild
 
