@@ -1,12 +1,13 @@
 Name:           ffms2
 Version:        2.23
-Release:        2%{?dist}
+Release:        11%{?dist}
 License:        MIT
 Summary:        Wrapper library around libffmpeg
 URL:            https://github.com/FFMS/ffms2
 Source0:        %{url}/archive/%{version}/%{name}-%{version}.tar.gz
 
-BuildRequires:  gcc
+BuildRequires:  gcc, gcc-c++
+%{?el7:BuildRequires: epel-rpm-macros}
 BuildRequires:  autoconf
 BuildRequires:  automake
 BuildRequires:  libtool
@@ -44,8 +45,7 @@ autoreconf -vfi
 rm %{buildroot}%{_libdir}/lib%{name}.la
 rm -rf %{buildroot}%{_docdir}
 
-%post -p /sbin/ldconfig
-%postun -p /sbin/ldconfig
+%ldconfig_scriptlets
 
 %files
 %license COPYING
@@ -60,6 +60,34 @@ rm -rf %{buildroot}%{_docdir}
 %{_libdir}/pkgconfig/%{name}.pc
 
 %changelog
+* Tue Nov 13 2018 Antonio Trande <sagitter@fedoraproject.org> - 2.23-11
+- Rebuild for ffmpeg-3.4.5 on el7
+- Use ldconfig_scriptlets macros
+
+* Thu Jul 26 2018 RPM Fusion Release Engineering <leigh123linux@gmail.com> - 2.23-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_29_Mass_Rebuild
+
+* Thu Mar 08 2018 RPM Fusion Release Engineering <leigh123linux@googlemail.com> - 2.23-9
+- Rebuilt for new ffmpeg snapshot
+
+* Thu Mar 01 2018 RPM Fusion Release Engineering <leigh123linux@googlemail.com> - 2.23-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_28_Mass_Rebuild
+
+* Thu Jan 18 2018 Leigh Scott <leigh123linux@googlemail.com> - 2.23-7
+- Rebuilt for ffmpeg-3.5 git
+
+* Thu Jan 18 2018 Leigh Scott <leigh123linux@googlemail.com> - 2.23-6
+- Rebuilt for ffmpeg-3.5 git
+
+* Thu Aug 31 2017 RPM Fusion Release Engineering <kwizart@rpmfusion.org> - 2.23-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_27_Mass_Rebuild
+
+* Thu Aug 31 2017 RPM Fusion Release Engineering <kwizart@rpmfusion.org> - 2.23-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_27_Mass_Rebuild
+
+* Sat Apr 29 2017 Leigh Scott <leigh123linux@googlemail.com> - 2.23-3
+- Rebuild for ffmpeg update
+
 * Sun Mar 19 2017 RPM Fusion Release Engineering <kwizart@rpmfusion.org> - 2.23-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_26_Mass_Rebuild
 
