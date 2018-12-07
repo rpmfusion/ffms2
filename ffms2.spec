@@ -1,12 +1,13 @@
 Name:           ffms2
 Version:        2.23
-Release:        10%{?dist}
+Release:        11%{?dist}
 License:        MIT
 Summary:        Wrapper library around libffmpeg
 URL:            https://github.com/FFMS/ffms2
 Source0:        %{url}/archive/%{version}/%{name}-%{version}.tar.gz
 
-BuildRequires:  gcc
+BuildRequires:  gcc, gcc-c++
+%{?el7:BuildRequires: epel-rpm-macros}
 BuildRequires:  autoconf
 BuildRequires:  automake
 BuildRequires:  libtool
@@ -44,8 +45,7 @@ autoreconf -vfi
 rm %{buildroot}%{_libdir}/lib%{name}.la
 rm -rf %{buildroot}%{_docdir}
 
-%post -p /sbin/ldconfig
-%postun -p /sbin/ldconfig
+%ldconfig_scriptlets
 
 %files
 %license COPYING
@@ -60,6 +60,10 @@ rm -rf %{buildroot}%{_docdir}
 %{_libdir}/pkgconfig/%{name}.pc
 
 %changelog
+* Tue Nov 13 2018 Antonio Trande <sagitter@fedoraproject.org> - 2.23-11
+- Rebuild for ffmpeg-3.4.5 on el7
+- Use ldconfig_scriptlets macros
+
 * Thu Jul 26 2018 RPM Fusion Release Engineering <leigh123linux@gmail.com> - 2.23-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_29_Mass_Rebuild
 
