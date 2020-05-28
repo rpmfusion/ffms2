@@ -1,0 +1,71 @@
+From 721ec7b98062ebce67959bae8587bd69db15e40a Mon Sep 17 00:00:00 2001
+From: Derek Buitenhuis <derek.buitenhuis@gmail.com>
+Date: Tue, 18 Oct 2016 14:43:54 +0100
+Subject: [PATCH] configure: Make swr a hard dep
+
+Signed-off-by: Derek Buitenhuis <derek.buitenhuis@gmail.com>
+---
+ Makefile.am  |  2 +-
+ configure.ac | 18 ++++++------------
+ ffms2.pc.in  |  2 +-
+ 3 files changed, 8 insertions(+), 14 deletions(-)
+
+diff --git a/Makefile.am b/Makefile.am
+index 624a91195..0400ab661 100644
+--- a/Makefile.am
++++ b/Makefile.am
+@@ -20,7 +20,7 @@ AM_CXXFLAGS = -std=c++11 -fvisibility=hidden
+ 
+ lib_LTLIBRARIES = src/core/libffms2.la
+ src_core_libffms2_la_LDFLAGS = @src_core_libffms2_la_LDFLAGS@
+-src_core_libffms2_la_LIBADD = @LIBAV_LIBS@ @AVRESAMPLE_LIBS@ @ZLIB_LDFLAGS@ -lz @LTUNDEF@
++src_core_libffms2_la_LIBADD = @LIBAV_LIBS@ @SWRESAMPLE_LIBS@ @ZLIB_LDFLAGS@ -lz @LTUNDEF@
+ src_core_libffms2_la_SOURCES = \
+ 	src/core/audiosource.cpp \
+ 	src/core/audiosource.h \
+diff --git a/configure.ac b/configure.ac
+index 0bb736bba..fb7e653b8 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -132,22 +132,16 @@ if test "$LIBAV_WORKS" = no; then
+ AC_MSG_FAILURE([cannot link with $_lav_name])
+ fi
+ 
+-libavresample='libavresample'
+-PKG_CHECK_MODULES(AVRESAMPLE, [libavresample >= 1.0.0], [], [
+-  PKG_CHECK_MODULES(AVRESAMPLE, [libswresample >= 1.0.0], [
+-    AC_DEFINE([WITH_SWRESAMPLE], [1], [Use libswresample rather than libavresample])
+-    libavresample='libswresample'
+-  ], [
+-    AC_MSG_ERROR([Either avresample or swresample is required.])
+-  ])
++PKG_CHECK_MODULES(SWRESAMPLE, [libswresample >= 1.0.0], [], [
++  AC_MSG_ERROR([swresample is required.])
+ ])
+ 
+ dnl See similar thing for LIBAV_LIBS
+-AVRESAMPLE_LIBS=$(echo $AVRESAMPLE_LIBS | sed 's/\(.*\)-lrt \(.*\)/\1\2 -lrt/')
++SWRESAMPLE_LIBS=$(echo $SWRESAMPLE_LIBS | sed 's/\(.*\)-lrt \(.*\)/\1\2 -lrt/')
+ 
+-AC_SUBST([AVRESAMPLE_CFLAGS])
+-AC_SUBST([AVRESAMPLE_LIBS])
+-AC_SUBST([libavresample])
++AC_SUBST([SWRESAMPLE_CFLAGS])
++AC_SUBST([SWRESAMPLE_LIBS])
++AC_SUBST([libswresample])
+ 
+ src_core_libffms2_la_LDFLAGS=""
+ AC_MSG_CHECKING([whether -Wl,-Bsymbolic is needed])
+diff --git a/ffms2.pc.in b/ffms2.pc.in
+index 2568b6142..7a2a35ee8 100644
+--- a/ffms2.pc.in
++++ b/ffms2.pc.in
+@@ -7,7 +7,7 @@ includedir=@includedir@
+ 
+ Name: ffms2
+ Description: The Fabulous FM Library 2
+-Requires.private: libavformat libavcodec libswscale libavutil @libavresample@
++Requires.private: libavformat libavcodec libswscale libavutil libswresample
+ Version: @FFMS_VERSION@
+ Libs.private: @ZLIB_LDFLAGS@ -lz
+ Libs: -L${libdir} -lffms2

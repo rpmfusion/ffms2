@@ -1,10 +1,13 @@
 Name:           ffms2
 Version:        2.23
-Release:        15%{?dist}
+Release:        16%{?dist}
 License:        MIT
 Summary:        Wrapper library around libffmpeg
 URL:            https://github.com/FFMS/ffms2
 Source0:        %{url}/archive/%{version}/%{name}-%{version}.tar.gz
+# Patches required to remove libavresample
+Patch0:         %{url}/commit/721ec7b98062ebce67959bae8587bd69db15e40a.patch
+Patch1:         %{url}/commit/354940823be5002556dd827f0130faa7f656c139.patch
 
 BuildRequires:  gcc, gcc-c++
 %{?el7:BuildRequires: epel-rpm-macros}
@@ -32,7 +35,7 @@ library around libffmpeg, plus some additional components to deal with file
 formats libavformat has (or used to have) problems with.
 
 %prep
-%autosetup
+%autosetup -p1
 sed -i 's/\r$//' COPYING
 
 %build
@@ -60,6 +63,9 @@ rm -rf %{buildroot}%{_docdir}
 %{_libdir}/pkgconfig/%{name}.pc
 
 %changelog
+* Thu May 28 2020 Leigh Scott <leigh123linux@gmail.com> - 2.23-16
+- Remove libavresample dependency (rfbz#5349)
+
 * Sat Feb 22 2020 RPM Fusion Release Engineering <leigh123linux@googlemail.com> - 2.23-15
 - Rebuild for ffmpeg-4.3 git
 
