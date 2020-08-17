@@ -1,6 +1,6 @@
 Name:           ffms2
 Version:        2.23
-Release:        16%{?dist}
+Release:        17%{?dist}
 License:        MIT
 Summary:        Wrapper library around libffmpeg
 URL:            https://github.com/FFMS/ffms2
@@ -63,6 +63,9 @@ rm -rf %{buildroot}%{_docdir}
 %{_libdir}/pkgconfig/%{name}.pc
 
 %changelog
+* Mon Aug 17 2020 RPM Fusion Release Engineering <leigh123linux@gmail.com> - 2.23-17
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu May 28 2020 Leigh Scott <leigh123linux@gmail.com> - 2.23-16
 - Remove libavresample dependency (rfbz#5349)
 
