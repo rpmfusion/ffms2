@@ -1,17 +1,15 @@
 Name:           ffms2
-Version:        2.23
-Release:        17%{?dist}
+Version:        2.40
+Release:        1%{?dist}
 License:        MIT
 Summary:        Wrapper library around libffmpeg
 URL:            https://github.com/FFMS/ffms2
 Source0:        %{url}/archive/%{version}/%{name}-%{version}.tar.gz
-# Patches required to remove libavresample
-Patch0:         %{url}/commit/721ec7b98062ebce67959bae8587bd69db15e40a.patch
-Patch1:         %{url}/commit/354940823be5002556dd827f0130faa7f656c139.patch
 
-BuildRequires:  gcc, gcc-c++
+
+BuildRequires:  gcc
+BuildRequires:  gcc-c++
 %{?el7:BuildRequires: epel-rpm-macros}
-BuildRequires:  autoconf
 BuildRequires:  automake
 BuildRequires:  libtool
 BuildRequires:  pkgconfig(libavformat)
@@ -19,6 +17,8 @@ BuildRequires:  pkgconfig(libavcodec)
 BuildRequires:  pkgconfig(libswscale)
 BuildRequires:  pkgconfig(libavutil)
 BuildRequires:  zlib-devel
+
+Provides: bundled(vapoursynth) = 35
 
 %description
 FFmpegSource (usually known as FFMS or FFMS2) is a cross-platform wrapper
@@ -37,9 +37,10 @@ formats libavformat has (or used to have) problems with.
 %prep
 %autosetup -p1
 sed -i 's/\r$//' COPYING
+mkdir -p src/config
+autoreconf -vfi
 
 %build
-autoreconf -vfi
 %configure --disable-static --disable-silent-rules
 %make_build
 
@@ -54,7 +55,7 @@ rm -rf %{buildroot}%{_docdir}
 %license COPYING
 %doc README.md
 %{_bindir}/ffmsindex
-%{_libdir}/lib%{name}.so.*
+%{_libdir}/lib%{name}.so.4*
 
 %files devel
 %doc doc/*
@@ -63,6 +64,9 @@ rm -rf %{buildroot}%{_docdir}
 %{_libdir}/pkgconfig/%{name}.pc
 
 %changelog
+* Sun Nov  1 2020 Leigh Scott <leigh123linux@gmail.com> - 2.40-1
+- Update to 2.40
+
 * Mon Aug 17 2020 RPM Fusion Release Engineering <leigh123linux@gmail.com> - 2.23-17
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
 
