@@ -1,6 +1,6 @@
 Name:           ffms2
 Version:        2.40
-Release:        1%{?dist}
+Release:        2%{?dist}
 License:        MIT
 Summary:        Wrapper library around libffmpeg
 URL:            https://github.com/FFMS/ffms2
@@ -64,6 +64,9 @@ rm -rf %{buildroot}%{_docdir}
 %{_libdir}/pkgconfig/%{name}.pc
 
 %changelog
+* Thu Dec 31 2020 Leigh Scott <leigh123linux@gmail.com> - 2.40-2
+- Rebuilt for new ffmpeg snapshot
+
 * Sun Nov  1 2020 Leigh Scott <leigh123linux@gmail.com> - 2.40-1
 - Update to 2.40
 
