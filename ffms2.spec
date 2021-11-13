@@ -5,7 +5,9 @@ License:        MIT
 Summary:        Wrapper library around libffmpeg
 URL:            https://github.com/FFMS/ffms2
 Source0:        %{url}/archive/%{version}/%{name}-%{version}.tar.gz
-
+Patch0:         %{url}/commit/96cbf38ea9381829a1314f432a2c60495dcefaad.patch
+Patch1:         %{url}/commit/586d87de3f896d0c4ff01b21f572375e11f9c3f1.patch
+Patch2:         %{url}/commit/45673149e9a2f5586855ad472e3059084eaa36b1.patch
 
 BuildRequires:  gcc
 BuildRequires:  gcc-c++
@@ -35,7 +37,12 @@ library around libffmpeg, plus some additional components to deal with file
 formats libavformat has (or used to have) problems with.
 
 %prep
-%autosetup -p1
+%setup -q
+%if 0%{?fedora} >= 36
+%patch0 -p1 -b ffmpeg45-0
+%patch1 -p1 -b ffmpeg45-1
+%patch2 -p1 -b ffmpeg45-2
+%endif
 sed -i 's/\r$//' COPYING
 mkdir -p src/config
 autoreconf -vfi
