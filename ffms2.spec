@@ -1,6 +1,6 @@
 Name:           ffms2
 Version:        2.40
-Release:        10%{?dist}
+Release:        11%{?dist}
 License:        MIT
 Summary:        Wrapper library around libffmpeg
 URL:            https://github.com/FFMS/ffms2
@@ -71,6 +71,9 @@ rm -rf %{buildroot}%{_docdir}
 %{_libdir}/pkgconfig/%{name}.pc
 
 %changelog
+* Sat Feb 03 2024 RPM Fusion Release Engineering <sergiomb@rpmfusion.org> - 2.40-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_40_Mass_Rebuild
+
 * Wed Aug 02 2023 RPM Fusion Release Engineering <sergiomb@rpmfusion.org> - 2.40-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_39_Mass_Rebuild
 
