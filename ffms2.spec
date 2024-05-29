@@ -1,17 +1,13 @@
 Name:           ffms2
-Version:        2.40
-Release:        11%{?dist}
+Version:        5.0
+Release:        1%{?dist}
 License:        MIT
 Summary:        Wrapper library around libffmpeg
 URL:            https://github.com/FFMS/ffms2
 Source0:        %{url}/archive/%{version}/%{name}-%{version}.tar.gz
-Patch0:         %{url}/commit/96cbf38ea9381829a1314f432a2c60495dcefaad.patch
-Patch1:         %{url}/commit/586d87de3f896d0c4ff01b21f572375e11f9c3f1.patch
-Patch2:         %{url}/commit/45673149e9a2f5586855ad472e3059084eaa36b1.patch
 
 BuildRequires:  gcc
 BuildRequires:  gcc-c++
-%{?el7:BuildRequires: epel-rpm-macros}
 BuildRequires:  automake
 BuildRequires:  libtool
 BuildRequires:  pkgconfig(libavformat)
@@ -20,7 +16,7 @@ BuildRequires:  pkgconfig(libswscale)
 BuildRequires:  pkgconfig(libavutil)
 BuildRequires:  zlib-devel
 
-Provides: bundled(vapoursynth) = 35
+Provides: bundled(vapoursynth) = 40
 
 %description
 FFmpegSource (usually known as FFMS or FFMS2) is a cross-platform wrapper
@@ -38,11 +34,6 @@ formats libavformat has (or used to have) problems with.
 
 %prep
 %setup -q
-%if 0%{?fedora} >= 36
-%patch0 -p1 -b ffmpeg45-0
-%patch1 -p1 -b ffmpeg45-1
-%patch2 -p1 -b ffmpeg45-2
-%endif
 sed -i 's/\r$//' COPYING
 mkdir -p src/config
 autoreconf -vfi
@@ -62,7 +53,7 @@ rm -rf %{buildroot}%{_docdir}
 %license COPYING
 %doc README.md
 %{_bindir}/ffmsindex
-%{_libdir}/lib%{name}.so.4*
+%{_libdir}/lib%{name}.so.5*
 
 %files devel
 %doc doc/*
@@ -71,6 +62,9 @@ rm -rf %{buildroot}%{_docdir}
 %{_libdir}/pkgconfig/%{name}.pc
 
 %changelog
+* Wed May 29 2024 Leigh Scott <leigh123linux@gmail.com> - 5.0-1
+- Update to 5.0
+
 * Sat Feb 03 2024 RPM Fusion Release Engineering <sergiomb@rpmfusion.org> - 2.40-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_40_Mass_Rebuild
 
